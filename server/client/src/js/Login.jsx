@@ -24,9 +24,14 @@ export default class Login extends React.PureComponent {
     this.setState({ password: event.target.value });
   }
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
     const payload = this.state;
-    login(payload);
+    const response = login(payload);
+    const { logIn } = this.props;
+    response.then((value) => {
+      logIn();
+    });
+    event.preventDefault();
   }
 
   render() {

@@ -13,15 +13,20 @@ class App extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: false,
+      authenticated: localStorage.getItem('authenticated') || false,
     };
   }
+
+  logIn = () => {
+    this.setState({ authenticated: true });
+    localStorage.setItem('authenticated', true);
+  };
 
   render() {
     const { authenticated } = this.state;
     const renderedComponent = authenticated
-      ? <Login />
-      : <RandomCat />;
+      ? <RandomCat />
+      : <Login logIn={this.logIn} />;
     return renderedComponent;
   }
 }

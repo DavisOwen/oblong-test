@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.decorators import login_required
-from oblong.views import LoginView, LogoutView, CatView
+from oblong.views import LoginView, LogoutView, CatView, AppView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('login/', login_required(LoginView.as_view())),
-    path('logout/', LogoutView.as_view()),
+    path('login/', LoginView.as_view()),
+    path('logout/', login_required(LogoutView.as_view())),
     path('cat/', login_required(CatView.as_view())),
+    path('', AppView.as_view()),
 ]

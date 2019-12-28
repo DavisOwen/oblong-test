@@ -10,7 +10,7 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: 'static/[name].js'
   },
 
   resolve: {
@@ -54,8 +54,8 @@ module.exports = {
       filename: 'index.html',
       hash: false,
       template: 'src/index.html',
-      chunks: ['app']
-    })
+      chunks: ['app'],
+    }),
   ],
 
   node: false,
