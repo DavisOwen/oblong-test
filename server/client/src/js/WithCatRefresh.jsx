@@ -1,4 +1,5 @@
 import React from 'react';
+import { cat } from './apiCalls';
 
 /**
  * Higher Order Components:
@@ -17,6 +18,38 @@ import React from 'react';
  * 3. Render a refresh button below the component we are wrapping that fetches
       a new cat image on click.
  */
-export function WithCatRefresh(Component) {
+export default function WithCatRefresh(Component) {
+  return class extends React.PureComponent {
+    constructor(props) {
+      super(props);
+      this.state = {
+        url: '',
+      };
+    }
 
+    componentDidMount() {
+      this.getCat();
+    }
+
+    getCat = () => {
+      const { logOut } = this.props;
+      const response = cat();
+      response.then((value) => {
+        const url = value.replace(/"/g, '');
+        this.setState({ url });
+      }, () => {
+        logOut();
+      });
+    }
+
+    render() {
+      const { url } = this.state;
+      return (
+        <>
+          <Component url={url} height={500} width={500} />
+          <button type="button" onClick={this.getCat}>Refresh</button>
+        </>
+      );
+    }
+  };
 }

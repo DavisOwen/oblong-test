@@ -13,6 +13,7 @@ export default class Login extends React.PureComponent {
     this.state = {
       username: '',
       password: '',
+      error: false,
     };
   }
 
@@ -25,22 +26,30 @@ export default class Login extends React.PureComponent {
   }
 
   handleSubmit = (event) => {
-    const payload = this.state;
+    const { username, password } = this.state;
+    const payload = { username, password };
     const response = login(payload);
     const { logIn } = this.props;
-    response.then((value) => {
+    response.then(() => {
       logIn();
+    }, (reject) => {
+      if (reject === 403) {
+        logIn();
+      } else {
+        this.setState({ error: true });
+      }
     });
     event.preventDefault();
   }
 
   render() {
-    const { username, password } = this.state;
+    const { username, password, error } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
         <input type="text" placeholder="Enter Username" value={username} onChange={this.changeUsername} required />
         <input type="password" placeholder="Enter Password" value={password} onChange={this.changePassword} required />
         <input type="submit" value="Login" />
+        {error && <p style={{ color: 'red' }}>Login Failed</p>}
       </form>
     );
   }

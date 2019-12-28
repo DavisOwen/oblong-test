@@ -1,13 +1,13 @@
 import os
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
+from rest_framework import status
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import requests
 
 # Create your views here.
-api_key = "0a7947c7-447a-45d8-981c-996f64c350c1"
 
 
 class LogoutView(APIView):
@@ -24,16 +24,17 @@ class LoginView(APIView):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return Response('Success')
-        return Response('User not found')
+                return Response('Success', status=status.HTTP_200_OK)
+        return Response('User not found', status=status.HTTP_404_NOT_FOUND)
 
 
 class CatView(APIView):
     def get(self, request):
         url = "https://api.thecatapi.com/v1/images/search"
-        headers = {'x-api-key': api_key}
+        headers = {'x-api-key': settings.API_KEY}
         resp = requests.get(url, headers=headers)
-        return Response(resp)
+        url = resp.json()[0]['url']
+        return Response(url, status=status.HTTP_200_OK)
 
 
 class AppView(APIView):

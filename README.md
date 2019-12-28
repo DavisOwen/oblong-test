@@ -51,3 +51,33 @@ npm run build
 ```
 
 Build files will be located in `client/dist`
+
+## Instructions to set up server
+
+I used Python Django to set up the backend. Have python3 installed and run
+
+`python3 -m venv oblong`
+
+and 
+
+`source oblong/bin/activate`
+
+then
+
+`pip install -r requirements.txt`
+
+Before running server, build the client, cd into server and
+
+```bash
+# from the client directory run
+npm install
+npm run build
+```
+
+Then, simply run the start_server.sh script
+
+`sh start_server.sh`
+
+and input your own username and password for the default user. You will also be prompted for the API_KEY for the cat API. You could alter the script and use my api key if you'd like, it is commented out in start_server.sh.
+
+Once the server is running, simply go to localhost:8000 to view the completed application!

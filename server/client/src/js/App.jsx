@@ -22,10 +22,15 @@ class App extends React.PureComponent {
     localStorage.setItem('authenticated', true);
   };
 
+  logOut = () => {
+    this.setState({ authenticated: false });
+    localStorage.setItem('authenticated', false);
+  }
+
   render() {
     const { authenticated } = this.state;
     const renderedComponent = authenticated
-      ? <RandomCat />
+      ? <RandomCat logOut={this.logOut} />
       : <Login logIn={this.logIn} />;
     return renderedComponent;
   }
